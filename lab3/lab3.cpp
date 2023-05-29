@@ -4,19 +4,45 @@
 #include <cstdlib>
 #include <ctime>
 
-class MovementSimulator {
+class Coordinates {
 private:
-    int x, y, c;
+    int x, y;
 
 public:
-    MovementSimulator() {
+    Coordinates() {
         x = 0;
         y = 0;
+    }
+
+    int getX() const {
+        return x;
+    }
+
+    void setX(int xCoord) {
+        x = xCoord;
+    }
+
+    int getY() const {
+        return y;
+    }
+
+    void setY(int yCoord) {
+        y = yCoord;
+    }
+};
+
+class Object {
+private:
+    Coordinates coords;
+    int c;
+
+public:
+    Object() {
         c = 0;
     }
 
     void calculatePath() {
-        c = std::sqrt(std::pow(x, 2) + std::pow(y, 2));
+        c = std::sqrt(std::pow(coords.getX(), 2) + std::pow(coords.getY(), 2));
         std::cout << "Полный путь: " << c << std::endl;
     }
 
@@ -26,9 +52,9 @@ public:
         for (int i = 0; i < n; i++) {
             z = rand() % 10;
             q = rand() % 10;
-            x += z;
-            y += q;
-            std::cout << "Значение X/Y: " << x << "/" << y << std::endl;
+            coords.setX(coords.getX() + z);
+            coords.setY(coords.getY() + q);
+            std::cout << "Значение X/Y: " << coords.getX() << "/" << coords.getY() << std::endl;
             calculatePath();
         }
     }
@@ -39,8 +65,8 @@ int main() {
     std::cout << "Укажите размер: ";
     std::cin >> n;
 
-    MovementSimulator simulator;
-    simulator.simulateMovement(n);
+    Object path;
+    path.simulateMovement(n);
 
     return 0;
 }
